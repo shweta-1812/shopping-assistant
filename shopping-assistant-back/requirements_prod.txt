@@ -1,0 +1,22 @@
+pytest
+pylint
+#ipdb
+#jupyterlab
+numpy
+pandas
+#matplotlib
+#seaborn
+scikit-learn
+# CLIP + ChromaDB for visual similarity search (added by Kyrylo)
+open-clip-torch  # CLIP ViT-B/32 model for image embeddings
+chromadb         # vector database for embeddings + metadata search
+torch            # PyTorch backend for CLIP
+torchvision      # image transforms for PyTorch
+Pillow           # image loading (PIL)
+tqdm             # progress bars for batch processing
+# tensorflow==2.16.0 # Take this from Kaggle environment
+tensorflow==2.19.0
+requests         # HTTP requests for API calls
+fastapi
+uvicorn
+#streamlit

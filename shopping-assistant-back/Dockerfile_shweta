@@ -1,0 +1,20 @@
+FROM python:3.12
+
+WORKDIR /app
+
+COPY shoppingassistant/ shoppingassistant
+COPY raw_data/images_filtered/ raw_data/images_filtered/
+COPY raw_data/test_images/ raw_data/test_images/
+COPY raw_data/articles_filtered.csv raw_data/articles_filtered.csv
+COPY raw_data/transactions_filtered.csv raw_data/transactions_filtered.csv
+
+
+COPY requirements.txt/ requirements.txt
+COPY api/ api/
+COPY models/ models/
+
+RUN apt-get update && \
+    apt-get install -y sqlite3 libsqlite3-dev
+RUN pip install -r requirements.txt
+
+CMD uvicorn api.fast:app --host 0.0.0.0 --port $PORT
