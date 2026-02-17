@@ -1,0 +1,4 @@
+# frontend requirements
+# Sreamlit and extensions
+streamlit
+requests

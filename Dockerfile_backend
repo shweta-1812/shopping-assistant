@@ -1,0 +1,34 @@
+# Base image
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Copy requirements
+COPY requirements_backend.txt requirements.txt
+
+
+# Install combined dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy backend
+COPY shopping-assistant-back/shoppingassistant shoppingassistant
+COPY shopping-assistant-back/api api
+
+# Copy models, raw_data, embeddings
+COPY shopping-assistant-back/models models
+COPY shopping-assistant-back/raw_data raw_data
+COPY shopping-assistant-back/embeddings embeddings
+
+# Expose port for Streamlit (Cloud Run public port)
+ENV PYTHONPATH=/app
+EXPOSE 8080
+
+
+# Start FastAPI in background & Streamlit in foreground
+#CMD uvicorn api.fast:app --host 0.0.0.0 --port 8000 & \
+#   streamlit run shopping-assistant-front/app.py --server.port 8080 --server.headless true
+#CMD ["streamlit", "run", "frontend/app.py", "--server.port", "$PORT", "--server.headless", "true"]
+
+#CMD sh -c "exec uvicorn api.fast:app --host 0.0.0.0 --port \$PORT"
+CMD sh -c "exec uvicorn api.fast:app --host 0.0.0.0 --port \$PORT --workers 1 --timeout-keep-alive 0"
